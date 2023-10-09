@@ -1,0 +1,62 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Address {
+  appartment: Int
+  city: String!
+  country: String!
+  floor: Int
+  id: Int!
+  street: String!
+  suite: String
+}
+
+input CreateAddressInput {
+  appartment: Int
+  city: String!
+  country: String!
+  floor: Int
+  street: String!
+  suite: String
+}
+
+input CreateMedicInput {
+  title: String!
+}
+
+type Medic {
+  id: Int!
+  title: String!
+}
+
+type Mutation {
+  createAddress(createAddressInput: CreateAddressInput!): Address!
+  createMedic(createMedicInput: CreateMedicInput!): Medic!
+  removeAddress(id: Int!): Address!
+  removeMedic(id: Int!): Medic!
+  updateAddress(updateAddressInput: UpdateAddressInput!): Address!
+  updateMedic(updateMedicInput: UpdateMedicInput!): Medic!
+}
+
+type Query {
+  address(id: Int!): Address!
+  addresses: [Address!]!
+  medic(id: Int!): Medic!
+  medics: [Medic!]!
+}
+
+input UpdateAddressInput {
+  appartment: Int
+  city: String!
+  country: String!
+  floor: Int
+  id: Int!
+  street: String!
+  suite: String
+}
+
+input UpdateMedicInput {
+  id: Int!
+  title: String!
+}

@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+// run "npx prisma generate" for every new model
+
+model address {
+    id         Int     @id @default(autoincrement())
+    country    String
+    city       String
+    street     String
+    suite      String?
+    floor      Int?
+    appartment Int?
+}
+
+model person {
+    id         Int     @id @default(autoincrement())
+    first_name String
+    last_name  String
+    email      String  @unique
+    address_id Int     @unique
+    medic      medic[]
+}
+
+model medic {
+    id    Int    @id @default(autoincrement())
+    title String
+
+    personId Int
+    pers     person @relation(fields: [personId], references: [id])
+}
