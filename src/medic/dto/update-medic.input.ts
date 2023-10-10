@@ -8,4 +8,8 @@ export class UpdateMedicInput extends PartialType(CreateMedicInput) {
 
     @Field()
     title: string;
+
+
+    @Field(() => Int)
+    personId: number;
 }

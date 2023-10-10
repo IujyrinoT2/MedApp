@@ -3,14 +3,21 @@ import { MedicService } from './medic.service';
 import { Medic } from './entities/medic.entity';
 import { CreateMedicInput } from './dto/create-medic.input';
 import { UpdateMedicInput } from './dto/update-medic.input';
+import { CreatePersonInput } from 'src/person/dto/create-person.input';
+import { CreateAddressInput } from 'src/address/dto/create-address.input';
 
 @Resolver(() => Medic)
 export class MedicResolver {
     constructor(private readonly medicService: MedicService) { }
 
     @Mutation(() => Medic)
-    createMedic(@Args('createMedicInput') createMedicInput: CreateMedicInput) {
-        return this.medicService.create(createMedicInput);
+    createMedic(
+        @Args('createMedicInput') createMedicInput: CreateMedicInput,
+        @Args('createPersonInput') createPersonInput: CreatePersonInput,
+        @Args('createAddressInput') createAddressInput: CreateAddressInput
+    ) {
+        return this.medicService.create(createAddressInput, createPersonInput, createMedicInput
+        );
     }
 
     @Query(() => [Medic], { name: 'medics' })

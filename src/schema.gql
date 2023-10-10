@@ -8,6 +8,7 @@ type Address {
   country: String!
   floor: Int
   id: Int!
+  person: Person
   street: String!
   suite: String
 }
@@ -22,21 +23,44 @@ input CreateAddressInput {
 }
 
 input CreateMedicInput {
+  personId: Int!
   title: String!
+}
+
+input CreatePersonInput {
+  address_id: Int!
+  email: String!
+  first_name: String!
+  last_name: String!
 }
 
 type Medic {
   id: Int!
+  inheritedPerson: Person!
+  personId: Int!
   title: String!
 }
 
 type Mutation {
   createAddress(createAddressInput: CreateAddressInput!): Address!
-  createMedic(createMedicInput: CreateMedicInput!): Medic!
+  createMedic(createAddressInput: CreateAddressInput!, createMedicInput: CreateMedicInput!, createPersonInput: CreatePersonInput!): Medic!
+  createPerson(createPersonInput: CreatePersonInput!): Person!
   removeAddress(id: Int!): Address!
   removeMedic(id: Int!): Medic!
+  removePerson(id: Int!): Person!
   updateAddress(updateAddressInput: UpdateAddressInput!): Address!
   updateMedic(updateMedicInput: UpdateMedicInput!): Medic!
+  updatePerson(updatePersonInput: UpdatePersonInput!): Person!
+}
+
+type Person {
+  address: Address!
+  address_id: String!
+  email: String!
+  first_name: String!
+  id: Int!
+  last_name: String!
+  medic: Medic
 }
 
 type Query {
@@ -44,6 +68,7 @@ type Query {
   addresses: [Address!]!
   medic(id: Int!): Medic!
   medics: [Medic!]!
+  person(id: Int!): Person!
 }
 
 input UpdateAddressInput {
@@ -58,5 +83,14 @@ input UpdateAddressInput {
 
 input UpdateMedicInput {
   id: Int!
+  personId: Int!
   title: String!
+}
+
+input UpdatePersonInput {
+  address_id: Int!
+  email: String!
+  first_name: String!
+  id: Int!
+  last_name: String!
 }

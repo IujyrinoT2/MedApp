@@ -1,60 +1,42 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { Person } from './person.model'
-import { randomInt } from 'crypto';
+import { Injectable } from '@nestjs/common';
+import { CreatePersonInput } from './dto/create-person.input';
+import { UpdatePersonInput } from './dto/update-person.input';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class PersonService {
 
-    private people: Person[] = [];
+    constructor(private prisma: PrismaService) { }
 
-    addPerson(first_name: string, last_name: string,
-        email: string, address_id: number) {
-
-        const id: number = randomInt(999999);
-        const newPerson = new Person(id, first_name, last_name,
-            email, address_id);
-
-        this.people.push(newPerson);
-        return id;
+    async create(createPersonInput: CreatePersonInput) {
+        return await this.prisma.person.create({
+            data: { ...createPersonInput }
+        });
     }
 
-    getAllPeople(): Person[] {
-
-        return this.people;
+    findAll() {
+        return this.prisma.person.findMany({
+            include: {
+                address: true
+            }
+        });
     }
 
-    getPerson(id: number): Person {
-
-        const person: Person = this.findPerson(id);
-        return person;
+    findOne(id: number) {
+        return this.prisma.person.findUnique({
+            include: { address: true },
+            where: { id }
+        });
     }
 
-    updatePerson(id: number, first_name: string, last_name: string, email: string,
-        address_id: number): void {
-
-        const person: Person = this.findPerson(id);
-        const updatedPerson: Person = person; // referrences person object
-
-        updatedPerson.first_name = first_name ?? updatedPerson.first_name;
-        updatedPerson.last_name = last_name ?? updatedPerson.last_name;
-        updatedPerson.email = email ?? updatedPerson.email;
-        updatedPerson.address_id = address_id ?? updatedPerson.address_id;
+    update(id: number, updatePersonInput: UpdatePersonInput) {
+        return this.prisma.person.update({
+            where: { id },
+            data: { ...updatePersonInput }
+        });
     }
 
-    deletePerson(id: number): void {
-
-        const person: Person = this.findPerson(id);
-        this.people.splice(person.id, 1);
-    }
-
-
-    private findPerson(reqId: number): Person {
-
-        const personIndex: number = this.people.findIndex(pers => pers.id === reqId);
-        const person: Person = this.people[personIndex];
-        if (!person) {
-            throw new NotFoundException(`Person with id: ${reqId} not found`);
-        }
-        return person;
+    remove(id: number) {
+        return this.prisma.person.delete({ where: { id } });
     }
 }

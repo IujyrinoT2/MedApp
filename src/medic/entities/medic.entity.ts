@@ -1,4 +1,5 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { Person } from 'src/person/entities/person.entity';
 
 @ObjectType()
 export class Medic {
@@ -7,4 +8,10 @@ export class Medic {
 
     @Field()
     title: string;
+
+    @Field(() => Person)
+    inheritedPerson: Person;
+
+    @Field(() => Int)
+    personId: number;
 }
