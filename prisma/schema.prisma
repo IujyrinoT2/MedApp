@@ -20,6 +20,7 @@ model address {
     suite      String?
     floor      Int?
     appartment Int?
+    person     person?
 }
 
 model person {
@@ -27,14 +28,14 @@ model person {
     first_name String
     last_name  String
     email      String  @unique
+    address    address @relation(fields: [address_id], references: [id])
     address_id Int     @unique
-    medic      medic[]
+    medic      medic?
 }
 
 model medic {
-    id    Int    @id @default(autoincrement())
-    title String
-
-    personId Int
-    pers     person @relation(fields: [personId], references: [id])
+    id              Int    @id @default(autoincrement())
+    title           String
+    inheritedPerson person @relation(fields: [personId], references: [id])
+    personId        Int    @unique
 }

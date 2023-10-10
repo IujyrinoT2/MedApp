@@ -1,4 +1,5 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { Person } from 'src/person/entities/person.entity';
 
 @ObjectType()
 export class Address {
@@ -23,4 +24,7 @@ export class Address {
 
     @Field(() => Int, { nullable: true })
     appartment?: number;
+
+    @Field(() => Person, { nullable: true })
+    person?: Person;
 }
