@@ -36,3 +36,4 @@ lerna-debug.log*
 
 # db sensitive data
 .env
+docker-compose.yml
