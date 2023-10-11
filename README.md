@@ -9,7 +9,7 @@
 - Prisma
 
 ## Install and run  
-1. clone repo and checkout the "dev" branch   
+1. clone repo     
 2. ```$ npm install```  
 3. create a "docker-compose.yml" file and add the postgress details, for example:  
 ```
